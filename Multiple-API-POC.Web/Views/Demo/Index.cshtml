@@ -36,18 +36,20 @@
        class="btn btn-warning">
         Run Cached
     </a>
+
+    <form asp-controller="Demo"
+          asp-action="ClearCache"
+          method="post"
+          class="d-inline">
+
+        <button type="submit"
+                class="btn btn-secondary">
+            Clear Cache
+        </button>
+    </form>
 </div>
 
-<form asp-controller="Demo"
-      asp-action="ClearCache"
-      method="post"
-      class="d-inline">
 
-    <button type="submit"
-            class="btn btn-secondary">
-        Clear Cache
-    </button>
-</form>
 
 @if (Model.Results.Count > 0)
 {
