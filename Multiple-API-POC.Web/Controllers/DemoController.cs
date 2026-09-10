@@ -13,6 +13,16 @@ public class DemoController : Controller
         _demoApiService = demoApiService;
     }
 
+    public IActionResult Index()
+    {
+        DemoViewModel model = new()
+        {
+            Mode = "Ready"
+        };
+
+        return View(model);
+    }
+
     public async Task<IActionResult> Sequential(
         CancellationToken cancellationToken)
     {

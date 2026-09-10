@@ -31,33 +31,42 @@
     </a>
 </div>
 
-<h2>@Model.Mode Results</h2>
+@if (Model.Results.Count > 0)
+{
+    <h2>@Model.Mode Results</h2>
 
-<p>
-    <strong>Total elapsed time:</strong>
-    @Model.TotalElapsedMilliseconds ms
-</p>
+    <p>
+        <strong>Total elapsed time:</strong>
+        @Model.TotalElapsedMilliseconds ms
+    </p>
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>API</th>
-            <th>Source</th>
-            <th>Elapsed Time</th>
-            <th>Response</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var result in Model.Results)
-        {
+    <table class="table table-bordered">
+        <thead>
             <tr>
-                <td>@result.Name</td>
-                <td>@result.Source</td>
-                <td>@result.ElapsedMilliseconds ms</td>
-                <td>
-                    <pre style="white-space: pre-wrap;">@result.Response</pre>
-                </td>
+                <th>API</th>
+                <th>Source</th>
+                <th>Elapsed Time</th>
+                <th>Response</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var result in Model.Results)
+            {
+                <tr>
+                    <td>@result.Name</td>
+                    <td>@result.Source</td>
+                    <td>@result.ElapsedMilliseconds ms</td>
+                    <td>
+                        <pre style="white-space: pre-wrap;">@result.Response</pre>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>
+        Choose one of the options above to run the four API calls.
+    </p>
+}
