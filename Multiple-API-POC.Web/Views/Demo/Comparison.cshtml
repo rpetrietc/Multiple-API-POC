@@ -1,0 +1,59 @@
+﻿@model Multiple_API_POC.Web.Models.ComparisonViewModel
+
+@{
+    ViewData["Title"] = "Performance Comparison";
+}
+
+<h1>API Performance Comparison</h1>
+
+<p>
+    This comparison shows the difference between sequential API calls,
+    parallel API calls, and cached results.
+</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Approach</th>
+            <th>Total elapsed time</th>
+            <th>Result source</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Sequential</td>
+            <td>@Model.Sequential.TotalElapsedMilliseconds ms</td>
+            <td>API</td>
+        </tr>
+
+        <tr>
+            <td>Parallel</td>
+            <td>@Model.Parallel.TotalElapsedMilliseconds ms</td>
+            <td>API</td>
+        </tr>
+
+        <tr>
+            <td>Cached - First Run</td>
+            <td>@Model.CachedFirstRun.TotalElapsedMilliseconds ms</td>
+            <td>
+                @string.Join(", ",
+                Model.CachedFirstRun.Results.Select(x => x.Source))
+            </td>
+        </tr>
+
+        <tr>
+            <td>Cached - Second Run</td>
+            <td>@Model.CachedSecondRun.TotalElapsedMilliseconds ms</td>
+            <td>
+                @string.Join(", ",
+                                Model.CachedSecondRun.Results.Select(x => x.Source))
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<a asp-controller="Demo"
+   asp-action="Index"
+   class="btn btn-secondary">
+    Back to Demo
+</a>

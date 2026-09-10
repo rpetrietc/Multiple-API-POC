@@ -61,4 +61,13 @@ public class DemoController : Controller
 
         return RedirectToAction(nameof(Index));
     }
+
+    public async Task<IActionResult> Comparison(
+    CancellationToken cancellationToken)
+    {
+        ComparisonViewModel model =
+            await _demoApiService.GetComparisonAsync(cancellationToken);
+
+        return View(model);
+    }
 }

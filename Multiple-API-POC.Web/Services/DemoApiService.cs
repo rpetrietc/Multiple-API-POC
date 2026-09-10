@@ -263,4 +263,30 @@ public class DemoApiService
             "demo:dog",
             cancellationToken);
     }
+
+    public async Task<ComparisonViewModel> GetComparisonAsync(
+    CancellationToken cancellationToken = default)
+    {
+        DemoViewModel sequential =
+            await GetSequentialAsync(cancellationToken);
+
+        DemoViewModel parallel =
+            await GetParallelAsync(cancellationToken);
+
+        await ClearCacheAsync(cancellationToken);
+
+        DemoViewModel cachedFirstRun =
+            await GetCachedAsync(cancellationToken);
+
+        DemoViewModel cachedSecondRun =
+            await GetCachedAsync(cancellationToken);
+
+        return new ComparisonViewModel
+        {
+            Sequential = sequential,
+            Parallel = parallel,
+            CachedFirstRun = cachedFirstRun,
+            CachedSecondRun = cachedSecondRun
+        };
+    }
 }
