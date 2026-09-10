@@ -11,6 +11,13 @@
     from four independent APIs.
 </p>
 
+@if (TempData["Message"] is string message)
+{
+    <div class="alert alert-info">
+        @message
+    </div>
+}
+
 <div class="mb-4">
     <a asp-controller="Demo"
        asp-action="Sequential"
@@ -30,6 +37,17 @@
         Run Cached
     </a>
 </div>
+
+<form asp-controller="Demo"
+      asp-action="ClearCache"
+      method="post"
+      class="d-inline">
+
+    <button type="submit"
+            class="btn btn-secondary">
+        Clear Cache
+    </button>
+</form>
 
 @if (Model.Results.Count > 0)
 {

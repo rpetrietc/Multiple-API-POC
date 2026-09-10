@@ -49,4 +49,16 @@ public class DemoController : Controller
 
         return View("Index", model);
     }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ClearCache(
+    CancellationToken cancellationToken)
+    {
+        await _demoApiService.ClearCacheAsync(cancellationToken);
+
+        TempData["Message"] = "Cache cleared.";
+
+        return RedirectToAction(nameof(Index));
+    }
 }

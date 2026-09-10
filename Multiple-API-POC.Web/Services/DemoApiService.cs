@@ -241,4 +241,26 @@ public class DemoApiService
             };
         }
     }
+
+    public async Task ClearCacheAsync(
+    CancellationToken cancellationToken = default)
+    {
+        int year = DateTime.UtcNow.Year;
+
+        await _cache.RemoveAsync(
+            "demo:weather",
+            cancellationToken);
+
+        await _cache.RemoveAsync(
+            $"demo:holidays:{year}",
+            cancellationToken);
+
+        await _cache.RemoveAsync(
+            "demo:pokemon",
+            cancellationToken);
+
+        await _cache.RemoveAsync(
+            "demo:dog",
+            cancellationToken);
+    }
 }
