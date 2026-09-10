@@ -30,4 +30,13 @@ public class DemoController : Controller
 
         return View("Index", model);
     }
+
+    public async Task<IActionResult> Cached(
+    CancellationToken cancellationToken)
+    {
+        DemoViewModel model =
+            await _demoApiService.GetCachedAsync(cancellationToken);
+
+        return View("Index", model);
+    }
 }
