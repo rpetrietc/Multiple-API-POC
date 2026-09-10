@@ -1,9 +1,19 @@
 using Multiple_API_POC.Web.Services;
+using Microsoft.Extensions.Caching.Hybrid;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddHybridCache(options =>
+{
+    options.DefaultEntryOptions = new HybridCacheEntryOptions
+    {
+        Expiration = TimeSpan.FromSeconds(60),
+        LocalCacheExpiration = TimeSpan.FromSeconds(60)
+    };
+});
 
 builder.Services.AddHttpClient<DemoApiService>(client =>
 {
