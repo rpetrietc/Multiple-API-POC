@@ -1,0 +1,57 @@
+﻿@model Multiple_API_POC.Web.Models.DemoViewModel
+
+@{
+    ViewData["Title"] = "Multiple API Demo";
+}
+
+<h1>Multiple API Performance Demo</h1>
+
+<p>
+    This page demonstrates different ways of retrieving information
+    from four independent APIs.
+</p>
+
+<div class="mb-4">
+    <a asp-controller="Demo"
+       asp-action="Sequential"
+       class="btn btn-primary">
+        Run Sequential
+    </a>
+
+    <a asp-controller="Demo"
+       asp-action="Parallel"
+       class="btn btn-success">
+        Run Parallel
+    </a>
+</div>
+
+<h2>@Model.Mode Results</h2>
+
+<p>
+    <strong>Total elapsed time:</strong>
+    @Model.TotalElapsedMilliseconds ms
+</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>API</th>
+            <th>Source</th>
+            <th>Elapsed Time</th>
+            <th>Response</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var result in Model.Results)
+        {
+            <tr>
+                <td>@result.Name</td>
+                <td>@result.Source</td>
+                <td>@result.ElapsedMilliseconds ms</td>
+                <td>
+                    <pre style="white-space: pre-wrap;">@result.Response</pre>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
