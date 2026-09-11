@@ -20,6 +20,10 @@ builder.Services.AddHttpClient<DemoApiService>(client =>
     client.Timeout = TimeSpan.FromSeconds(10);
 });
 
+builder.Services.AddHttpClient("ResilienceDemo")
+    .ConfigurePrimaryHttpMessageHandler(() => new SimulatedFailureHandler())
+    .AddStandardResilienceHandler();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
