@@ -66,6 +66,42 @@
         <strong style="color:red">@Model.TotalElapsedMilliseconds ms</strong>  
     </p>
 
+    @if (Model.Mode == "Sequential")
+    {
+        <div class="alert alert-primary">
+            <strong>Pros:</strong>
+            <ul class="mb-2">
+                <li>Simple and easy to understand.</li>
+                <li>Useful when one Application Programming Interface (API) call depends on another.</li>
+                <li>Easier to follow and troubleshoot.</li>
+            </ul>
+
+            <strong>Cons:</strong>
+            <ul class="mb-0">
+                <li>Slower when the API calls are independent.</li>
+                <li>Total response time is roughly the sum of all API call times.</li>
+                <li>One slow API can delay everything that follows it.</li>
+            </ul>
+        </div>
+    }
+    else if (Model.Mode == "Parallel")
+    {
+        <div class="alert alert-success">
+            <strong>Pros:</strong>
+            <ul class="mb-2">
+                <li>Independent Application Programming Interface (API) calls run at the same time.</li>
+                <li>Total response time is closer to the slowest individual API call.</li>
+                <li>Can significantly improve landing-page performance.</li>
+            </ul>
+
+            <strong>Cons:</strong>
+            <ul class="mb-0">
+                <li>Only appropriate when the API calls are independent.</li>
+                <li>Creates multiple outbound requests at the same time.</li>
+                <li>Error handling can be more complex if one API fails.</li>
+            </ul>
+        </div>
+    }
     <table class="table table-bordered">
         <thead>
             <tr>
