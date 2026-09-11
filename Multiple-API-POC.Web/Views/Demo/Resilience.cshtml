@@ -18,11 +18,25 @@
     </a>
 </div>
 
+<a asp-controller="Demo"
+   asp-action="RunTransientResilience"
+   class="btn btn-success">
+    Run Temporary Failure + Recovery
+</a>
+
 @if (ViewBag.Result != null)
 {
     <div class="alert alert-warning">
         <strong>Result:</strong>
         @ViewBag.Result
+    </div>
+}
+
+@if (ViewBag.TransientResult != null)
+{
+    <div class="alert alert-success mt-3">
+        <strong>Recovery Result:</strong>
+        @ViewBag.TransientResult
     </div>
 }
 
