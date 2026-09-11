@@ -88,4 +88,16 @@ public class DemoController : Controller
 
         return View("Resilience");
     }
+
+    public async Task<IActionResult> RunTransientResilience(
+    CancellationToken cancellationToken)
+    {
+        string result =
+            await _resilienceDemoService.RunTransientFailureTestAsync(
+                cancellationToken);
+
+        ViewBag.TransientResult = result;
+
+        return View("Resilience");
+    }
 }
