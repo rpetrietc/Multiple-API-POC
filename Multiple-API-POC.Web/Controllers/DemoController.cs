@@ -70,4 +70,9 @@ public class DemoController : Controller
 
         return View(model);
     }
+
+    public IActionResult Resilience()
+    {
+        return View();
+    }
 }
