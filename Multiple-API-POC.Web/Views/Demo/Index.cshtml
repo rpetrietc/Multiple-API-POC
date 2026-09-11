@@ -102,6 +102,24 @@
             </ul>
         </div>
     }
+    else if (Model.Mode == "Cached")
+    {
+        <div class="alert alert-warning">
+            <strong>Pros:</strong>
+            <ul class="mb-2">
+                <li>Previously retrieved data can be returned very quickly.</li>
+                <li>Reduces unnecessary Application Programming Interface (API) calls.</li>
+                <li>Can reduce load on external systems and improve landing-page performance.</li>
+            </ul>
+
+            <strong>Cons:</strong>
+            <ul class="mb-0">
+                <li>The first request still needs to call the APIs when the cache is empty.</li>
+                <li>Cached data may be slightly out of date until the cache expires.</li>
+                <li>Cache duration needs to be chosen carefully based on how fresh the data must be.</li>
+            </ul>
+        </div>
+    }
     <table class="table table-bordered">
         <thead>
             <tr>
