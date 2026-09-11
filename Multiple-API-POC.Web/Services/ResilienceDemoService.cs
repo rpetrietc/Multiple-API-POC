@@ -35,4 +35,37 @@ public class ResilienceDemoService
                $"after {timer.ElapsedMilliseconds} ms. " +
                $"Total attempts: {attempts}";
     }
+
+    public async Task<string> RunTransientFailureTestAsync(
+    CancellationToken cancellationToken = default)
+    {
+        HttpClient client =
+            _httpClientFactory.CreateClient("TransientResilienceDemo");
+
+        using HttpRequestMessage request = new(
+            HttpMethod.Get,
+            "https://example.invalid/transient-api");
+
+        request.Headers.Add(
+            "X-Demo-Scenario-Id",
+            Guid.NewGuid().ToString());
+
+        Stopwatch timer = Stopwatch.StartNew();
+
+        HttpResponseMessage response = await client.SendAsync(
+            request,
+            cancellationToken);
+
+        timer.Stop();
+
+        string attempts = response.Headers.TryGetValues(
+            "X-Demo-Attempt",
+            out IEnumerable<string>? values)
+                ? values.First()
+                : "Unknown";
+
+        return $"Final result: {(int)response.StatusCode} {response.StatusCode} " +
+               $"after {timer.ElapsedMilliseconds} ms. " +
+               $"Total attempts: {attempts}";
+    }
 }
