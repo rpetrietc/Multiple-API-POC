@@ -40,6 +40,35 @@
     </div>
 }
 
+<div class="card mt-4 mb-3">
+    <div class="card-body">
+        <h4 class="card-title">What this proves</h4>
+
+        <ul class="mb-0">
+            <li>
+                <strong>Permanent failure:</strong>
+                If a service remains unavailable, the portal can detect the failure
+                and handle it without waiting indefinitely.
+            </li>
+            <li>
+                <strong>Temporary failure:</strong>
+                If a service has a short-lived problem, the resilience policy can
+                automatically retry the request.
+            </li>
+            <li>
+                <strong>Recovery:</strong>
+                If the service becomes available again during a retry, the request
+                can succeed without the user having to try again manually.
+            </li>
+            <li>
+                <strong>Portal design:</strong>
+                One unhealthy backend service should not prevent the portal from
+                continuing to work with the services that are still available.
+            </li>
+        </ul>
+    </div>
+</div>
+
 <a asp-controller="Demo"
    asp-action="Index"
    class="btn btn-secondary">
