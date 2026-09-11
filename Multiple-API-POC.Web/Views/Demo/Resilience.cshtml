@@ -10,9 +10,21 @@
     is slow or unavailable.
 </p>
 
-<div class="alert alert-info">
-    Resilience testing will be added here.
+<div class="mb-3">
+    <a asp-controller="Demo"
+       asp-action="RunResilience"
+       class="btn btn-danger">
+        Run Simulated Failure
+    </a>
 </div>
+
+@if (ViewBag.Result != null)
+{
+    <div class="alert alert-warning">
+        <strong>Result:</strong>
+        @ViewBag.Result
+    </div>
+}
 
 <a asp-controller="Demo"
    asp-action="Index"
