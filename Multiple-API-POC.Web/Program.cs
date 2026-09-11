@@ -24,6 +24,8 @@ builder.Services.AddHttpClient("ResilienceDemo")
     .ConfigurePrimaryHttpMessageHandler(() => new SimulatedFailureHandler())
     .AddStandardResilienceHandler();
 
+builder.Services.AddScoped<ResilienceDemoService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
