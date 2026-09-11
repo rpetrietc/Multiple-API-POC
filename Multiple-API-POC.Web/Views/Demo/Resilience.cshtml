@@ -16,13 +16,13 @@
        class="btn btn-danger">
         Run Simulated Failure
     </a>
-</div>
 
-<a asp-controller="Demo"
-   asp-action="RunTransientResilience"
-   class="btn btn-success">
-    Run Temporary Failure + Recovery
-</a>
+    <a asp-controller="Demo"
+       asp-action="RunTransientResilience"
+       class="btn btn-success">
+        Run Temporary Failure + Recovery
+    </a>
+</div>
 
 @if (ViewBag.Result != null)
 {
@@ -34,7 +34,7 @@
 
 @if (ViewBag.TransientResult != null)
 {
-    <div class="alert alert-success mt-3">
+    <div class="alert alert-success">
         <strong>Recovery Result:</strong>
         @ViewBag.TransientResult
     </div>
