@@ -25,7 +25,14 @@ public class ResilienceDemoService
 
         timer.Stop();
 
+        string attempts = response.Headers.TryGetValues(
+        "X-Demo-Attempt",
+        out IEnumerable<string>? values)
+            ? values.First()
+            : "Unknown";
+
         return $"Final result: {(int)response.StatusCode} {response.StatusCode} " +
-               $"after {timer.ElapsedMilliseconds} ms";
+               $"after {timer.ElapsedMilliseconds} ms. " +
+               $"Total attempts: {attempts}";
     }
 }
