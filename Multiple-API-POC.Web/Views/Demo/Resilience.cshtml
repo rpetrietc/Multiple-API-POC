@@ -1,0 +1,146 @@
+﻿@{
+    ViewData["Title"] = "API Resilience Demo";
+}
+
+<h1>API Resilience Demo</h1>
+
+<p>
+    This page demonstrates how the portal can continue operating
+    when one of its dependent APIs is slow or unavailable.
+</p>
+
+<div class="mb-4">
+    <a asp-controller="Demo"
+       asp-action="RunResilience"
+       class="btn btn-danger mb-2">
+        Permanent Failure
+    </a>
+
+    <a asp-controller="Demo"
+       asp-action="RunTransientResilience"
+       class="btn btn-success mb-2">
+        Temporary Failure + Recovery
+    </a>
+
+    <a asp-controller="Demo"
+       asp-action="RunTimeoutResilience"
+       class="btn btn-warning mb-2">
+        Slow Service + Timeout
+    </a>
+
+    <a asp-controller="Demo"
+       asp-action="RunCircuitBreakerResilience"
+       class="btn btn-dark mb-2">
+        Circuit Breaker
+    </a>
+
+    <a asp-controller="Demo"
+       asp-action="RunPartialSuccessResilience"
+       class="btn btn-primary mb-2">
+        Partial Success
+    </a>
+</div>
+
+
+@if (ViewBag.Result != null)
+{
+    <div class="alert alert-danger">
+        <strong>Permanent Failure:</strong>
+        @ViewBag.Result
+    </div>
+}
+
+
+@if (ViewBag.TransientResult != null)
+{
+    <div class="alert alert-success">
+        <strong>Temporary Failure + Recovery:</strong>
+        @ViewBag.TransientResult
+    </div>
+}
+
+
+@if (ViewBag.TimeoutResult != null)
+{
+    <div class="alert alert-warning">
+        <strong>Timeout:</strong>
+        @ViewBag.TimeoutResult
+    </div>
+}
+
+
+@if (ViewBag.CircuitResults != null)
+{
+    <div class="alert alert-dark">
+        <strong>Circuit Breaker:</strong>
+
+        <ul class="mb-0 mt-2">
+            @foreach (string result in ViewBag.CircuitResults)
+            {
+                <li>@result</li>
+            }
+        </ul>
+    </div>
+}
+
+
+@if (ViewBag.PartialResults != null)
+{
+    <div class="alert alert-primary">
+        <strong>Partial Success:</strong>
+
+        <ul class="mb-0 mt-2">
+            @foreach (string result in ViewBag.PartialResults)
+            {
+                <li>@result</li>
+            }
+        </ul>
+    </div>
+}
+
+
+<div class="card mt-4 mb-3">
+    <div class="card-body">
+        <h4 class="card-title">What this proves</h4>
+
+        <ul class="mb-0">
+            <li>
+                <strong>Permanent failure:</strong>
+                An unavailable service can fail without bringing down
+                the entire portal.
+            </li>
+
+            <li>
+                <strong>Retry and recovery:</strong>
+                A temporary service failure can be retried automatically
+                and recover without user intervention.
+            </li>
+
+            <li>
+                <strong>Timeout:</strong>
+                The portal does not need to wait indefinitely for a
+                slow backend service.
+            </li>
+
+            <li>
+                <strong>Circuit breaker:</strong>
+                Repeated failures can cause the portal to temporarily
+                stop calling an unhealthy service and fail quickly.
+            </li>
+
+            <li>
+                <strong>Partial success:</strong>
+                Independent services can be called in parallel and
+                healthy services can still return results when one
+                dependency is unavailable.
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<a asp-controller="Demo"
+   asp-action="Index"
+   class="btn btn-secondary">
+    Back to Performance Demo
+</a>

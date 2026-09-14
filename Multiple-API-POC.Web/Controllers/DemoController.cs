@@ -7,10 +7,12 @@ namespace Multiple_API_POC.Web.Controllers;
 public class DemoController : Controller
 {
     private readonly DemoApiService _demoApiService;
+    private readonly ResilienceDemoService _resilienceDemoService;
 
-    public DemoController(DemoApiService demoApiService)
+    public DemoController(DemoApiService demoApiService, ResilienceDemoService resilienceDemoService)
     {
         _demoApiService = demoApiService;
+        _resilienceDemoService = resilienceDemoService;
     }
 
     public IActionResult Index()
@@ -69,5 +71,65 @@ public class DemoController : Controller
             await _demoApiService.GetComparisonAsync(cancellationToken);
 
         return View(model);
+    }
+
+    public IActionResult Resilience()
+    {
+        return View();
+    }
+
+    public async Task<IActionResult> RunResilience(
+    CancellationToken cancellationToken)
+    {
+        string result =
+            await _resilienceDemoService.RunFailureTestAsync(cancellationToken);
+
+        ViewBag.Result = result;
+
+        return View("Resilience");
+    }
+
+    public async Task<IActionResult> RunTransientResilience(
+    CancellationToken cancellationToken)
+    {
+        string result =
+            await _resilienceDemoService.RunTransientFailureTestAsync(
+                cancellationToken);
+
+        ViewBag.TransientResult = result;
+
+        return View("Resilience");
+    }
+
+    public async Task<IActionResult> RunTimeoutResilience(
+    CancellationToken cancellationToken)
+    {
+        ViewBag.TimeoutResult =
+            await _resilienceDemoService.RunTimeoutTestAsync(
+                cancellationToken);
+
+        return View("Resilience");
+    }
+
+
+    public async Task<IActionResult> RunCircuitBreakerResilience(
+        CancellationToken cancellationToken)
+    {
+        ViewBag.CircuitResults =
+            await _resilienceDemoService.RunCircuitBreakerTestAsync(
+                cancellationToken);
+
+        return View("Resilience");
+    }
+
+
+    public async Task<IActionResult> RunPartialSuccessResilience(
+        CancellationToken cancellationToken)
+    {
+        ViewBag.PartialResults =
+            await _resilienceDemoService.RunPartialSuccessTestAsync(
+                cancellationToken);
+
+        return View("Resilience");
     }
 }
