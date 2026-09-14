@@ -100,4 +100,36 @@ public class DemoController : Controller
 
         return View("Resilience");
     }
+
+    public async Task<IActionResult> RunTimeoutResilience(
+    CancellationToken cancellationToken)
+    {
+        ViewBag.TimeoutResult =
+            await _resilienceDemoService.RunTimeoutTestAsync(
+                cancellationToken);
+
+        return View("Resilience");
+    }
+
+
+    public async Task<IActionResult> RunCircuitBreakerResilience(
+        CancellationToken cancellationToken)
+    {
+        ViewBag.CircuitResults =
+            await _resilienceDemoService.RunCircuitBreakerTestAsync(
+                cancellationToken);
+
+        return View("Resilience");
+    }
+
+
+    public async Task<IActionResult> RunPartialSuccessResilience(
+        CancellationToken cancellationToken)
+    {
+        ViewBag.PartialResults =
+            await _resilienceDemoService.RunPartialSuccessTestAsync(
+                cancellationToken);
+
+        return View("Resilience");
+    }
 }

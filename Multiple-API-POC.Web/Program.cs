@@ -1,5 +1,8 @@
-using Multiple_API_POC.Web.Services;
 using Microsoft.Extensions.Caching.Hybrid;
+using Microsoft.Extensions.Http.Resilience;
+using Multiple_API_POC.Web.Services;
+using Polly;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +33,45 @@ builder.Services.AddHttpClient("TransientResilienceDemo")
     .ConfigurePrimaryHttpMessageHandler(
         () => new SimulatedTransientFailureHandler())
     .AddStandardResilienceHandler();
+
+builder.Services.AddHttpClient("TimeoutDemo")
+    .ConfigurePrimaryHttpMessageHandler(
+        () => new SimulatedSlowHandler())
+    .AddResilienceHandler("TimeoutPipeline", static pipeline =>
+    {
+        pipeline.AddTimeout(TimeSpan.FromSeconds(1));
+    });
+
+builder.Services.AddHttpClient("CircuitBreakerDemo")
+    .ConfigurePrimaryHttpMessageHandler(
+        () => new SimulatedFailureHandler())
+    .AddResilienceHandler("CircuitBreakerPipeline", static pipeline =>
+    {
+        pipeline.AddCircuitBreaker(
+            new HttpCircuitBreakerStrategyOptions
+            {
+                FailureRatio = 1.0,
+                MinimumThroughput = 2,
+                SamplingDuration = TimeSpan.FromSeconds(10),
+                BreakDuration = TimeSpan.FromSeconds(15),
+
+                ShouldHandle = static args =>
+                    ValueTask.FromResult(args is
+                    {
+                        Outcome.Result.StatusCode:
+                            HttpStatusCode.ServiceUnavailable
+                    })
+            });
+    });
+
+builder.Services.AddHttpClient("PartialSuccessDemo", client =>
+{
+    client.Timeout = TimeSpan.FromSeconds(5);
+});
+
+builder.Services.AddHttpClient("PartialFailureDemo")
+    .ConfigurePrimaryHttpMessageHandler(
+        () => new SimulatedFailureHandler());
 
 var app = builder.Build();
 
